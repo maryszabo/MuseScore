@@ -51,6 +51,7 @@ Item {
     property alias navigation: mainItem.navigation
 
     signal activated(int index)
+    signal valueEdited(var newValue)
 
     height: 30
     width: 126
@@ -59,6 +60,7 @@ Item {
     //! the `onCurrentValueChanged` slot will be called, often in the handlers of which there are not yet initialized values
     Component.onCompleted: prv.updateCurrent()
     onCurrentIndexChanged: prv.updateCurrent()
+    onCurrentIndexChanged: prv.checkCurrent()
 
     QtObject {
         id: prv
@@ -71,6 +73,14 @@ Item {
 
             root.currentText = root.valueFromModel(root.currentIndex, root.textRole, "")
             root.currentValue = root.valueFromModel(root.currentIndex, root.valueRole, "")
+        }
+
+        function checkCurrent() {
+            if (root.currentIndex >=0) {
+                root.currentText = root.valueFromModel(root.currentIndex, root.textRole, "")
+                root.currentValue = root.valueFromModel(root.currentIndex, root.valueRole, "")
+            }
+            
         }
     }
 
